@@ -20,7 +20,6 @@ defmodule SessionPlaygroundWeb.Router do
   scope "/", SessionPlaygroundWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
   end
 
   # Other scopes may use custom stacks.
@@ -75,6 +74,11 @@ defmodule SessionPlaygroundWeb.Router do
     pipe_through [:browser]
 
     delete "/users/log_out", UserSessionController, :delete
+
+    live_session :other_current_user, layout: false,
+      on_mount: [{SessionPlaygroundWeb.UserAuth, :mount_current_user}] do
+      live "/", PageLive, :home
+    end
 
     live_session :current_user,
       on_mount: [{SessionPlaygroundWeb.UserAuth, :mount_current_user}] do
