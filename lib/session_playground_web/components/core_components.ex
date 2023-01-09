@@ -588,6 +588,35 @@ defmodule SessionPlaygroundWeb.CoreComponents do
     """
   end
 
+  attr :active, :atom
+
+  slot :item, required: true do
+    attr :id, :atom
+    attr :navigate, :string
+    attr :href, :string
+    attr :method, :string
+  end
+
+  def light_nav(assigns) do
+    ~H"""
+    <div class="sm:flex sm:space-x-4">
+      <.link
+        :for={nav_item <- @item}
+        class={
+          if @active == Map.get(nav_item, :id),
+            do:
+              "border-indigo-500 text-gray-900 inline-flex items-center border-b-2 text-sm font-medium",
+            else:
+              "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300  border-b-2 text-sm"
+        }
+        {Map.drop(nav_item, [:id])}
+      >
+        <%= render_slot(nav_item) %>
+      </.link>
+    </div>
+    """
+  end
+
   ## JS Commands
 
   def show(js \\ %JS{}, selector) do

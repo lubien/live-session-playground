@@ -14,36 +14,27 @@
       </p>
     </div>
     <div class="flex items-center gap-4">
+      <.light_nav active={@active_nav}>
+        <:item id={:mount_a} navigate={~p"/mount-a"}>Mount A</:item>
+        <:item id={:mount_b} navigate={~p"/mount-b"}>Mount B</:item>
+      </.light_nav>
       <%= if @current_user do %>
         <span class="text-[0.8125rem] font-semibold leading-6 text-zinc-900 hover:text-zinc-700">
           <%= @current_user.email %>
         </span>
-        <.link
-          href={~p"/users/settings"}
-          class="text-[0.8125rem] font-semibold leading-6 text-zinc-900 hover:text-zinc-700"
-        >
-          Settings
-        </.link>
-        <.link
-          href={~p"/users/log_out"}
-          method="delete"
-          class="text-[0.8125rem] font-semibold leading-6 text-zinc-900 hover:text-zinc-700"
-        >
-          Log out
-        </.link>
+        <.light_nav active={@active_nav}>
+          <:item id={:settings} navigate={~p"/users/settings"}>Settings</:item>
+          <:item id={:logout} href={~p"/users/log_out"} method="delete">
+            Log out
+          </:item>
+        </.light_nav>
       <% else %>
-        <.link
-          href={~p"/users/register"}
-          class="text-[0.8125rem] font-semibold leading-6 text-zinc-900 hover:text-zinc-700"
-        >
-          Register
-        </.link>
-        <.link
-          href={~p"/users/log_in"}
-          class="text-[0.8125rem] font-semibold leading-6 text-zinc-900 hover:text-zinc-700"
-        >
-          Log in
-        </.link>
+        <.light_nav active={@active_nav}>
+          <:item id={:register} navigate={~p"/users/register"}>Register</:item>
+          <:item id={:login} navigate={~p"/users/log_in"}>
+            Log in
+          </:item>
+        </.light_nav>
       <% end %>
     </div>
   </div>

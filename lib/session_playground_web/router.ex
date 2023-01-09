@@ -19,7 +19,6 @@ defmodule SessionPlaygroundWeb.Router do
 
   scope "/", SessionPlaygroundWeb do
     pipe_through :browser
-
   end
 
   # Other scopes may use custom stacks.
@@ -50,7 +49,10 @@ defmodule SessionPlaygroundWeb.Router do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 
     live_session :redirect_if_user_is_authenticated,
-      on_mount: [{SessionPlaygroundWeb.UserAuth, :redirect_if_user_is_authenticated}] do
+      on_mount: [
+        {SessionPlaygroundWeb.UserAuth, :redirect_if_user_is_authenticated},
+        SessionPlaygroundWeb.Nav
+      ] do
       live "/users/register", UserRegistrationLive, :new
       live "/users/log_in", UserLoginLive, :new
       live "/users/reset_password", UserForgotPasswordLive, :new
@@ -64,7 +66,7 @@ defmodule SessionPlaygroundWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     live_session :require_authenticated_user,
-      on_mount: [{SessionPlaygroundWeb.UserAuth, :ensure_authenticated}] do
+      on_mount: [{SessionPlaygroundWeb.UserAuth, :ensure_authenticated}, SessionPlaygroundWeb.Nav] do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
     end
@@ -76,8 +78,10 @@ defmodule SessionPlaygroundWeb.Router do
     delete "/users/log_out", UserSessionController, :delete
 
     live_session :current_user,
-      on_mount: [{SessionPlaygroundWeb.UserAuth, :mount_current_user}] do
+      on_mount: [{SessionPlaygroundWeb.UserAuth, :mount_current_user}, SessionPlaygroundWeb.Nav] do
       live "/", PageLive, :home
+      live "/mount-a", MountLive, :mount_a
+      live "/mount-b", MountLive, :mount_b
       live "/users/confirm/:token", UserConfirmationLive, :edit
       live "/users/confirm", UserConfirmationInstructionsLive, :new
     end
