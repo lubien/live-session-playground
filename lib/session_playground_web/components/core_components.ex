@@ -129,15 +129,29 @@ defmodule SessionPlaygroundWeb.CoreComponents do
       aria-live="assertive"
       class="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6"
     >
-      <div
-        id="notifications"
-        phx-update="prepend"
-        class="flex w-full flex-col items-center space-y-4 sm:items-end"
-      >
+      <div class="cursor-pointer flex w-full flex-col items-center space-y-4 sm:items-end">
+        <button
+          :if={Enum.count_until(@notifications, 2) > 1}
+          phx-click={
+            hide(".notification-item")
+            |> JS.push("notifications:close-all")
+          }
+          type="button"
+          class="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5"
+        >
+          <div class="p-4">
+            <div class="flex items-start">
+              <div class="ml-3 w-0 flex-1">
+                <p class="text-sm text-gray-500">Click here to close all notifications</p>
+              </div>
+            </div>
+          </div>
+        </button>
+
         <div
           :for={notification <- @notifications}
           id={"notification-#{notification.id}"}
-          class="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5"
+          class="notification-item pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5"
         >
           <div class="p-4">
             <div class="flex items-start">
@@ -150,7 +164,10 @@ defmodule SessionPlaygroundWeb.CoreComponents do
               </div>
               <div class="ml-4 flex flex-shrink-0">
                 <button
-                  phx-click={hide("#notification-#{notification.id}")}
+                  phx-click={
+                    hide("#notification-#{notification.id}")
+                    |> JS.push("notifications:close", value: %{id: notification.id})
+                  }
                   type="button"
                   class="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >

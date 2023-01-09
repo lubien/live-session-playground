@@ -6,9 +6,7 @@ defmodule SessionPlaygroundWeb.PageLive do
   def mount(_params, _session, socket) do
     PubSub.subscribe(SessionPlayground.PubSub, "notifications")
 
-    {:ok,
-     socket
-     |> assign(:notifications, []), temporary_assigns: [notifications: []]}
+    {:ok, socket |> assign(:notifications, [])}
   end
 
   def handle_event("send_test_notification", _params, socket) do
@@ -19,6 +17,15 @@ defmodule SessionPlaygroundWeb.PageLive do
     )
 
     {:noreply, socket}
+  end
+
+  def handle_event("notifications:close", %{"id" => id}, socket) do
+    filtered_notifications = Enum.reject(socket.assigns.notifications, &(&1.id == id))
+    {:noreply, assign(socket, :notifications, filtered_notifications)}
+  end
+
+  def handle_event("notifications:close-all", _params, socket) do
+    {:noreply, assign(socket, :notifications, [])}
   end
 
   def handle_info({:notification, notification}, socket) do
