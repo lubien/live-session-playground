@@ -1,5 +1,5 @@
 defmodule SessionPlaygroundWeb.PageLive do
-  use SessionPlaygroundWeb, :live_view_without_layout
+  use SessionPlaygroundWeb, :live_view
 
   alias Phoenix.PubSub
 
@@ -8,8 +8,7 @@ defmodule SessionPlaygroundWeb.PageLive do
 
     {:ok,
      socket
-     |> assign(:notifications, [random_notification(), random_notification()]),
-     temporary_assigns: [notifications: []]}
+     |> assign(:notifications, []), temporary_assigns: [notifications: []]}
   end
 
   def handle_event("send_test_notification", _params, socket) do
