@@ -23,7 +23,9 @@ defmodule SessionPlaygroundWeb.Router do
     live_session :simple,
       on_mount: [
         {SessionPlaygroundWeb.UserAuth, :mount_current_user},
-        SessionPlaygroundWeb.Nav
+        SessionPlaygroundWeb.Nav,
+        {SessionPlaygroundWeb.LogSession, "Hello Elixir"},
+        SessionPlaygroundWeb.Notification
       ] do
       live "/", PageLive, :home
       live "/notifications", NotificationLive, :show
@@ -77,7 +79,8 @@ defmodule SessionPlaygroundWeb.Router do
     live_session :require_authenticated_user,
       on_mount: [
         {SessionPlaygroundWeb.UserAuth, :ensure_authenticated},
-        SessionPlaygroundWeb.Nav
+        SessionPlaygroundWeb.Nav,
+        SessionPlaygroundWeb.Notification
       ] do
       live "/mount-c", MountLive, :mount_c
       live "/users/settings", UserSettingsLive, :edit
@@ -93,7 +96,8 @@ defmodule SessionPlaygroundWeb.Router do
     live_session :current_user,
       on_mount: [
         {SessionPlaygroundWeb.UserAuth, :mount_current_user},
-        SessionPlaygroundWeb.Nav
+        SessionPlaygroundWeb.Nav,
+        SessionPlaygroundWeb.Notification
       ] do
       live "/mount-a", MountLive, :mount_a
       live "/mount-b", MountLive, :mount_b

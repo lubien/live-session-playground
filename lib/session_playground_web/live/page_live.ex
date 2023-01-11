@@ -9,6 +9,7 @@ defmodule SessionPlaygroundWeb.PageLive do
     ~H"""
     <div>
       <p>You are in the home page</p>
+      <p><%= @from_live_session %></p>
       <p>Current count: <%= @count %></p>
       <p>
         <.button type="button" phx-click="inc">Increment</.button>
