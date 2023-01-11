@@ -78,6 +78,7 @@ defmodule SessionPlaygroundWeb.Router do
         SessionPlaygroundWeb.Nav,
         SessionPlaygroundWeb.Notification
       ] do
+      live "/mount-c", MountLive, :mount_c
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
     end
