@@ -2,33 +2,31 @@ defmodule SessionPlaygroundWeb.MountLive do
   use SessionPlaygroundWeb, :live_view
 
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :mount_id, Ecto.UUID.generate())}
+    {:ok, assign(socket, :socket, socket)}
   end
 
   def render(assigns) do
     ~H"""
     <div>
-      <%= @mount_id %>
+      <h1 class="text-2xl mb-8">
+        My Phoenix.LiveView.Socket ID is <strong class="font-bold"><%= @socket.id %></strong>
+      </h1>
 
-      <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-3">
-        <.link
-          patch={~p"/mount-a"}
-          class="group relative rounded-2xl px-6 py-4 text-sm font-semibold leading-6 text-zinc-900 sm:py-6"
-        >
-          <span class="relative flex items-center gap-4 sm:flex-col">
-            Go to Mount A
-          </span>
-        </.link>
+      <h4 class="text-xl">
+        Here's the value of <strong class="font-bold">socket.private.lifecycle.mount</strong>
+      </h4>
 
-        <.link
-          patch={~p"/mount-b"}
-          class="group relative rounded-2xl px-6 py-4 text-sm font-semibold leading-6 text-zinc-900 sm:py-6"
-        >
-          <span class="relative flex items-center gap-4 sm:flex-col">
-            Go to Mount B
-          </span>
-        </.link>
-      </div>
+      <ul>
+        <li :for={item <- @socket.private.lifecycle.mount}>
+          <.list>
+            <:item title="id"><strong class="font-bold"><%= inspect(item.id) %></strong></:item>
+            <:item title="stage"><%= inspect(item.stage) %></:item>
+            <:item title="function"><%= inspect(item.function) %></:item>
+          </.list>
+
+          <hr class="mt-2" />
+        </li>
+      </ul>
     </div>
     """
   end
