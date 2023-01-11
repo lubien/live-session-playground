@@ -21,7 +21,10 @@ defmodule SessionPlaygroundWeb.Router do
     pipe_through :browser
 
     live_session :simple,
-      on_mount: [{SessionPlaygroundWeb.UserAuth, :mount_current_user}, SessionPlaygroundWeb.Nav] do
+      on_mount: [
+        {SessionPlaygroundWeb.UserAuth, :mount_current_user},
+        SessionPlaygroundWeb.Nav
+      ] do
       live "/", PageLive, :home
       live "/notifications", NotificationLive, :show
     end
@@ -57,8 +60,7 @@ defmodule SessionPlaygroundWeb.Router do
     live_session :redirect_if_user_is_authenticated,
       on_mount: [
         {SessionPlaygroundWeb.UserAuth, :redirect_if_user_is_authenticated},
-        SessionPlaygroundWeb.Nav,
-        SessionPlaygroundWeb.Notification
+        SessionPlaygroundWeb.Nav
       ] do
       live "/users/register", UserRegistrationLive, :new
       live "/users/log_in", UserLoginLive, :new
@@ -75,8 +77,7 @@ defmodule SessionPlaygroundWeb.Router do
     live_session :require_authenticated_user,
       on_mount: [
         {SessionPlaygroundWeb.UserAuth, :ensure_authenticated},
-        SessionPlaygroundWeb.Nav,
-        SessionPlaygroundWeb.Notification
+        SessionPlaygroundWeb.Nav
       ] do
       live "/mount-c", MountLive, :mount_c
       live "/users/settings", UserSettingsLive, :edit
@@ -92,8 +93,7 @@ defmodule SessionPlaygroundWeb.Router do
     live_session :current_user,
       on_mount: [
         {SessionPlaygroundWeb.UserAuth, :mount_current_user},
-        SessionPlaygroundWeb.Nav,
-        SessionPlaygroundWeb.Notification
+        SessionPlaygroundWeb.Nav
       ] do
       live "/mount-a", MountLive, :mount_a
       live "/mount-b", MountLive, :mount_b
