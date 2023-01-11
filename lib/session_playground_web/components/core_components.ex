@@ -123,6 +123,8 @@ defmodule SessionPlaygroundWeb.CoreComponents do
     """
   end
 
+  attr :notifications, :list, required: true
+
   def notifications(assigns) do
     ~H"""
     <div
