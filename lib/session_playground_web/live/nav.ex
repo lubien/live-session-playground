@@ -5,6 +5,7 @@ defmodule SessionPlaygroundWeb.Nav do
     {:cont, assign(socket, :active_nav, active_tab(socket.view, socket.assigns.live_action))}
   end
 
+  defp active_tab(SessionPlaygroundWeb.NotificationLive, :show), do: :notification
   defp active_tab(SessionPlaygroundWeb.MountLive, :mount_a), do: :mount_a
   defp active_tab(SessionPlaygroundWeb.MountLive, :mount_b), do: :mount_b
   defp active_tab(SessionPlaygroundWeb.UserLoginLive, _live_action), do: :login

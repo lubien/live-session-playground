@@ -15,6 +15,7 @@
     </div>
     <div class="flex items-center gap-4">
       <.light_nav active={@active_nav}>
+        <:item id={:notification} navigate={~p"/notifications"}>Notifications</:item>
         <:item id={:mount_a} navigate={~p"/mount-a"}>Mount A</:item>
         <:item id={:mount_b} navigate={~p"/mount-b"}>Mount B</:item>
       </.light_nav>
@@ -58,4 +59,4 @@
   </div>
 </main>
 
-<.notifications notifications={@notifications} />
+<.notifications :if={assigns[:notifications]} notifications={@notifications} />

@@ -23,6 +23,7 @@ defmodule SessionPlaygroundWeb.Router do
     live_session :simple,
       on_mount: [{SessionPlaygroundWeb.UserAuth, :mount_current_user}, SessionPlaygroundWeb.Nav] do
       live "/", PageLive, :home
+      live "/notifications", NotificationLive, :show
     end
   end
 
